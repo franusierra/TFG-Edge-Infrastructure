@@ -9,8 +9,6 @@ spec:
   repo: https://openfaas.github.io/faas-netes/
   set:
     functionNamespace: "tfg-edge" 
-    generateBasicAuth: "true" 
-    imagePullPolicy: "IfNotPresent" 
     operator.create: "true" 
     serviceType: "LoadBalancer"
 ---
