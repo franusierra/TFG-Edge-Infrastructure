@@ -3,7 +3,7 @@ apiVersion: openfaas.com/v1
 kind: Function
 metadata:
   name: blood-oxygen
-  namespace: openfaas-fn
+  namespace: tfg-edge
 spec:
   name: blood-oxygen
   image: franusi/function-blood-oxygen:latest
@@ -22,7 +22,7 @@ apiVersion: openfaas.com/v1
 kind: Function
 metadata:
   name: heartbeat
-  namespace: openfaas-fn
+  namespace: tfg-edge
 spec:
   name: heartbeat
   image: franusi/function-heartbeat:latest
@@ -42,7 +42,7 @@ apiVersion: openfaas.com/v1
 kind: Function
 metadata:
   name: temperature
-  namespace: openfaas-fn
+  namespace: tfg-edge
 spec:
   name: temperature
   image: franusi/function-temperature:latest
@@ -62,7 +62,7 @@ apiVersion: openfaas.com/v1
 kind: Function
 metadata:
   name: alarms-upload
-  namespace: openfaas-fn
+  namespace: tfg-edge
 spec:
   name: alarms-upload
   image: franusi/alarms-upload:latest
@@ -83,7 +83,7 @@ apiVersion: openfaas.com/v1
 kind: Function
 metadata:
   name: sensors-aggregation
-  namespace: openfaas-fn
+  namespace: tfg-edge
 spec:
   name: sensors-aggregation
   image: franusi/sensors-aggregation:latest
