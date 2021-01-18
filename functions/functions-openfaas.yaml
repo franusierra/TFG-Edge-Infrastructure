@@ -1,0 +1,102 @@
+---
+apiVersion: openfaas.com/v1
+kind: Function
+metadata:
+  name: blood-oxygen
+  namespace: openfaas-fn
+spec:
+  name: blood-oxygen
+  image: franusi/function-blood-oxygen:latest
+  annotations: 
+      topic: clinic/sensors/oxymeter
+  environment:
+    alarm_lower_limit: "90"
+    clinic_name: edge-clinic
+    influx_host: influxdb
+    influx_port: "8086"
+    mosquitto_broker: mosquitto
+  secrets:
+  - influxdb-auth
+---
+apiVersion: openfaas.com/v1
+kind: Function
+metadata:
+  name: heartbeat
+  namespace: openfaas-fn
+spec:
+  name: heartbeat
+  image: franusi/function-heartbeat:latest
+  annotations: 
+      topic: clinic/sensors/heartbeat
+  environment:
+    alarm_lower_limit: "40"
+    alarm_upper_limit: "100"
+    clinic_name: edge-clinic
+    influx_host: influxdb
+    influx_port: "8086"
+    mosquitto_broker: mosquitto
+  secrets:
+  - influxdb-auth
+---
+apiVersion: openfaas.com/v1
+kind: Function
+metadata:
+  name: temperature
+  namespace: openfaas-fn
+spec:
+  name: temperature
+  image: franusi/function-temperature:latest
+  annotations: 
+      topic: clinic/sensors/temperature
+  environment:
+    alarm_lower_limit: "35.5"
+    alarm_upper_limit: "38"
+    clinic_name: edge-clinic
+    influx_host: influxdb
+    influx_port: "8086"
+    mosquitto_broker: mosquitto
+  secrets:
+  - influxdb-auth
+---
+apiVersion: openfaas.com/v1
+kind: Function
+metadata:
+  name: alarms-upload
+  namespace: openfaas-fn
+spec:
+  name: alarms-upload
+  image: franusi/alarms-upload:latest
+  annotations: 
+      topic: cron-function
+      schedule: "*/30 * * * *"
+  environment:
+    clinic_name: edge-clinic
+    influx_host_cloud: cloudaggregation.ddns.net
+    influx_host_local: influxdb
+    influx_port_cloud: "8086"
+    influx_port_local: "8086"
+  secrets:
+  - influxdb-auth
+  - influxdb-cloud-auth
+---
+apiVersion: openfaas.com/v1
+kind: Function
+metadata:
+  name: sensors-aggregation
+  namespace: openfaas-fn
+spec:
+  name: sensors-aggregation
+  image: franusi/sensors-aggregation:latest
+  annotations: 
+      topic: cron-function
+      schedule: "*/30 * * * *"
+  environment:
+    clinic_name: edge-clinic
+    influx_host_cloud: cloudaggregation.ddns.net
+    influx_host_local: influxdb
+    influx_port_cloud: "8086"
+    influx_port_local: "8086"
+  secrets:
+  - influxdb-auth
+  - influxdb-cloud-auth
+
